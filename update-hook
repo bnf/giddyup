@@ -9,7 +9,7 @@
 
 set -e
 
-REPO="$(dirname $(cd $(dirname "$0"); pwd -P))"
+REPO="$(pwd -P)"
 ROOT="$(dirname "${REPO}")"
 
 # Create a symlink from within the `$RELEASE` into somewhere within
