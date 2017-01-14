@@ -66,16 +66,19 @@ share() {
 	
 	if [ -e "$src" ]; then
 		if [ ! -e "$dst" ]; then
+			echo mv "$src" "$dst"
 			mv "$src" "$dst"
 		fi
 		
 		# Yes, this'll be a NOOP if we've just done the above
+		echo rm -rf "$src"
 		rm -rf "$src"
 	fi
 
 	# transform e.g web/foo into '../' and web/bar/foo into '../../'
 	backpath=`echo "${shareditem}" | sed -e 's:/$::' -e 's:[^/]*/:../:g' -e 's:[^/]*$::'`
 	path="../../${backpath}shared/${shareditem}"
+	echo ln -snf "${path}" "$src"
 	ln -snf "${path}" "$src"
 }
 
@@ -153,6 +156,7 @@ cycle_release() {
 
 	run_hook stop
 
+	echo ln -snf "releases/${RELEASE_DATE}" current
 	ln -snf "releases/${RELEASE_DATE}" current
 
 	run_hook start
