@@ -103,8 +103,7 @@ run_hook() {
 }
 
 # Attempts to execute a single hook file, whose fully-qualified path is
-# given as the sole argument.  Respects the `autochmodhooks` config variable
-# when deciding whether or not to execute the file.
+# given as the sole argument.
 #
 # Example:
 #
@@ -112,19 +111,9 @@ run_hook() {
 #
 exec_hook_file() {
 	local hook_file="$1"
-	local autochmodhooks="$(get_config autochmodhooks)"
 
-	if [ "${autochmodhooks}" = "true" ]; then
-		chmod +x $hook_file
-	fi
-
-	if [ -x "$hook_file" ]; then
+	if [ -e "$hook_file" ]; then
 		source "$hook_file"
-	elif [ -e "$hook_file" ]; then
-		cat <<EOF >&2
-WARNING: file $hook_file does not have executable permissions.
-You may want to enable giddyup.autochmodhooks, or fix the permissions.
-EOF
 	fi
 }
 

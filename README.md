@@ -158,19 +158,10 @@ the location specified by the `giddyup.hookdir` git config variable (see
 "Configuration", below).
 
 It is looking for files or directories that match the name of the hook
-(`start`, `stop`, etc).  If there is a file named after the hook, and it is
-executable, then that file is executed.  If, on the other hand, there is a
-directory named after the hook, then all executable files in that directory
+(`start`, `stop`, etc).  If there is a file named after the hook, then that
+file is exceuted by sourcing it. If, on the other hand, there is a
+directory named after the hook, then all files in that directory
 are executed, in the lexical order of the names of the files.
-
-If you really, *really* need to be able to run hook files that aren't
-already executable (I don't know why; git stores executable bits just fine)
-then you can set the `autochmodhooks` config variable; this will have the
-effect of making *every* file in your hook directories (if you're using
-them) a hook script.  So don't combine this config option with a `README`...
-
-Each hook script is run as a separate process, and as such cannot effect the
-environment or working directory of giddyup itself or any other hook script.
 
 
 ## Hook environment
@@ -193,21 +184,6 @@ The working directory of all hooks is the root of the deployment tree.
 During the 'stop' hook, the `current` symlink will point to the previous
 running release of the application, while during the `start` hook the
 `current` symlink will point to the new release you're currently deploying.
-
-
-## Hook script helpers
-
-To help you make your hook scripts easier to write, there are some shell
-functions available to help you on your way.  To use them, merely add:
-
-    . /path/to/giddyup/functions.sh
-
-or
-
-    . $FUNCS
-
-at the top of your hook script, and then call away to your heart's content.
-
 
 
 # Error handling
@@ -278,16 +254,6 @@ of those fancy new infinite-capacity hard drives).
 
 If you want to have far, far too much gory detail about what giddyup is
 doing, you can set this to true.
-
-
-## `giddyup.autochmodhooks`
-
-(**OPTIONAL**; default: false)
-
-Sometimes the hook files found in `giddyup.hookdir` (e.g. in
-`config/hooks/`) are not marked as executable in the repository.  Setting
-`giddyup.autochmodhooks` to `true` will cause giddyup to set the executable
-bit itself before running the hook script.
 
 
 # Frequently Answered Questions
