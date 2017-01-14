@@ -164,8 +164,7 @@ cycle_release() {
 
 	run_hook stop
 
-	rm -f current
-	ln -s "${RELEASE}" current
+	ln -snf "${RELEASE}" current
 
 	run_hook start
 
