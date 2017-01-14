@@ -113,7 +113,10 @@ exec_hook_file() {
 	local hook_file="$1"
 
 	if [ -e "$hook_file" ]; then
+		TMP_PWD="$PWD"
 		source "$hook_file"
+		# switch back to the root folder, in case the sourced file changed the pwd
+		cd "${TMP_PWD}"
 	fi
 }
 
