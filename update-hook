@@ -73,7 +73,10 @@ share() {
 		rm -rf "$src"
 	fi
 
-	ln -sf "$dst" "$src"
+	# transform e.g web/foo into '../' and web/bar/foo into '../../'
+	backpath=`echo "${shareditem}" | sed -e 's:/$::' -e 's:[^/]*/:../:g' -e 's:[^/]*$::'`
+	path="../../${backpath}shared/${shareditem}"
+	ln -snf "${path}" "$src"
 }
 
 # Execute the specified hook.
@@ -150,7 +153,7 @@ cycle_release() {
 
 	run_hook stop
 
-	ln -snf "${RELEASE}" current
+	ln -snf "releases/${RELEASE_DATE}" current
 
 	run_hook start
 
