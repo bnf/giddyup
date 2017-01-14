@@ -186,9 +186,7 @@ if [ "$REF" != "refs/heads/master" ]; then
 	exit 1
 fi
 
-cd "${RELEASE}"
-
-git --git-dir "${REPO}" archive --format=tar "${NEWREV}" | tar xf -
+git --git-dir "${REPO}" archive --format=tar "${NEWREV}" | tar -xf - -C "${RELEASE}"
 
 cd "${ROOT}"
 
